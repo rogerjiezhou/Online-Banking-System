@@ -2,24 +2,47 @@ package com.roger.cutomerFront.domain;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
 public class Customer {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "userId", nullable = false, updatable = false)
 	private Long userId;
 	private String username;
 	private String password;
 	private String firstName;
 	private String lastName;
+	
+	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 	private String phone;
 	
 	private boolean enabled = true;
 	
+	@OneToOne
 	private CheckingAccount primaryAccount;
-	
+
+	@OneToOne
 	private SavingsAccount sabingsAccount;
 	
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<Appointment> appointmentList;
 	
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Recipient> recipientList;
 
 	public Long getUserId() {

@@ -2,13 +2,26 @@ package com.roger.cutomerFront.domain;
 
 import java.util.Date;
 
-public class Appointment {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
+@Entity
+public class Appointment {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private Date date;
 	private String location;
 	private String descrption;
 	private boolean confirmed;
+	
+	@ManyToOne
+	@JoinColumn(name="customer_id")
 	private Customer customer;
 	public Long getId() {
 		return id;
