@@ -1,6 +1,9 @@
-package com.roger.cutomerFront.domain;
+package com.roger.customerFront.domain;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,10 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.roger.customerFront.domain.security.UserRole;
 
 @Entity
-public class Customer {
+public class Customer implements UserDetails{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,7 +43,7 @@ public class Customer {
 	private CheckingAccount primaryAccount;
 
 	@OneToOne
-	private SavingsAccount sabingsAccount;
+	private SavingsAccount savingsAccount;
 	
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore
@@ -44,6 +51,27 @@ public class Customer {
 	
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Recipient> recipientList;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<UserRole> userRoles = new HashSet<>();
+
+	
+	public SavingsAccount getSavingsAccount() {
+		return savingsAccount;
+	}
+
+	public void setSavingsAccount(SavingsAccount savingsAccount) {
+		this.savingsAccount = savingsAccount;
+	}
+
+	public Set<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(Set<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}
 
 	public Long getUserId() {
 		return userId;
@@ -118,11 +146,11 @@ public class Customer {
 	}
 
 	public SavingsAccount getSabingsAccount() {
-		return sabingsAccount;
+		return savingsAccount;
 	}
 
 	public void setSabingsAccount(SavingsAccount sabingsAccount) {
-		this.sabingsAccount = sabingsAccount;
+		this.savingsAccount = sabingsAccount;
 	}
 
 	public List<Appointment> getAppointmentList() {
@@ -146,6 +174,30 @@ public class Customer {
 		return "Customer [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", email=" + email + ", phone=" + phone + ", enabled="
 				+ enabled + "]";
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

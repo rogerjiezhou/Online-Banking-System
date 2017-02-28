@@ -1,4 +1,4 @@
-package com.roger.cutomerFront;
+package com.roger.customerFront;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

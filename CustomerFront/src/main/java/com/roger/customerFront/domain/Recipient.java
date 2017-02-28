@@ -1,4 +1,4 @@
-package com.roger.cutomerFront.domain;
+package com.roger.customerFront.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
