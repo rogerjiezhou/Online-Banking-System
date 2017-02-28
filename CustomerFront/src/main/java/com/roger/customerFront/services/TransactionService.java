@@ -2,7 +2,9 @@ package com.roger.customerFront.services;
 
 import java.util.List;
 
+import com.roger.customerFront.domain.PrimaryAccount;
 import com.roger.customerFront.domain.PrimaryTransaction;
+import com.roger.customerFront.domain.SavingsAccount;
 import com.roger.customerFront.domain.SavingsTransaction;
 
 public interface TransactionService {
@@ -17,8 +19,8 @@ public interface TransactionService {
     void savePrimaryWithdrawTransaction(PrimaryTransaction primaryTransaction);
     
     void saveSavingsWithdrawTransaction(SavingsTransaction savingsTransaction);
-//    
-//    void betweenAccountsTransfer(String transferFrom, String transferTo, String amount, PrimaryAccount primaryAccount, SavingsAccount savingsAccount) throws Exception;
+    
+    void betweenAccountsTransfer(String transferFrom, String transferTo, String amount, PrimaryAccount primaryAccount, SavingsAccount savingsAccount) throws Exception;
 //    
 //    List<Recipient> findRecipientList(Principal principal);
 //
@@ -29,4 +31,6 @@ public interface TransactionService {
 //    void deleteRecipientByName(String recipientName);
 //    
 //    void toSomeoneElseTransfer(Recipient recipient, String accountType, String amount, PrimaryAccount primaryAccount, SavingsAccount savingsAccount);
+
+
 }
