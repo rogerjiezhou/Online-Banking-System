@@ -2,7 +2,7 @@ package com.roger.customerFront.domain.security;
 
 import javax.persistence.*;
 
-import com.roger.customerFront.domain.Customer;
+import com.roger.customerFront.domain.User;
 
 /**
  * Created by z00382545 on 10/20/16.
@@ -15,15 +15,15 @@ public class UserRole {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userRoleId;
 
-    public UserRole(Customer customer, Role role) {
-        this.user = customer;
+    public UserRole(User user, Role role) {
+        this.user = user;
         this.role = role;
     }
 
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private Customer user;
+    private User user;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -40,11 +40,11 @@ public class UserRole {
         this.userRoleId = userRoleId;
     }
 
-    public Customer getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(Customer user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

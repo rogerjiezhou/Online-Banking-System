@@ -8,27 +8,25 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.roger.customerFront.dao.CustomerDAO;
-import com.roger.customerFront.domain.Customer;
+import com.roger.customerFront.dao.UserDao;
+import com.roger.customerFront.domain.User;
 
 @Service
-public class CustomerSecurityService implements UserDetailsService {
+public class UserSecurityService implements UserDetailsService {
 
     /** The application logger */
-    private static final Logger LOG = LoggerFactory.getLogger(CustomerSecurityService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UserSecurityService.class);
 
     @Autowired
-    private CustomerDAO customerDAO;
+    private UserDao userDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    	System.out.println("In security service");
-        Customer customer = customerDAO.findByUsername(username);
-        if (null == customer) {
+        User user = userDao.findByUsername(username);
+        if (null == user) {
             LOG.warn("Username {} not found", username);
             throw new UsernameNotFoundException("Username " + username + " not found");
         }
-        System.out.println(customer);
-        return customer;
+        return user;
     }
 }

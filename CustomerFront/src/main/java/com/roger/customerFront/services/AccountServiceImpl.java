@@ -6,9 +6,9 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.roger.customerFront.dao.CheckingAccountDao;
+import com.roger.customerFront.dao.PrimaryAccountDao;
 import com.roger.customerFront.dao.SavingsAccountDao;
-import com.roger.customerFront.domain.CheckingAccount;
+import com.roger.customerFront.domain.PrimaryAccount;
 import com.roger.customerFront.domain.SavingsAccount;
 
 @Service
@@ -17,25 +17,25 @@ public class AccountServiceImpl implements AccountService {
 	private static int nextAccountNumber = 11223145;
 
     @Autowired
-    private CheckingAccountDao checkingAccountDao;
+    private PrimaryAccountDao primaryAccountDao;
 
     @Autowired
     private SavingsAccountDao savingsAccountDao;
 
     @Autowired
-    private CustomerService customerService;
+    private UserService userService;
     
 //    @Autowired
 //    private TransactionService transactionService;
 
-    public CheckingAccount createCheckingAccount() {
-        CheckingAccount primaryAccount = new CheckingAccount();
+    public PrimaryAccount createPrimaryAccount() {
+        PrimaryAccount primaryAccount = new PrimaryAccount();
         primaryAccount.setAccountBalance(new BigDecimal(0.0));
         primaryAccount.setAccountNumber(accountGen());
 
-        checkingAccountDao.save(primaryAccount);
+        primaryAccountDao.save(primaryAccount);
 
-        return checkingAccountDao.findByAccountNumber(primaryAccount.getAccountNumber());
+        return primaryAccountDao.findByAccountNumber(primaryAccount.getAccountNumber());
     }
 
     public SavingsAccount createSavingsAccount() {

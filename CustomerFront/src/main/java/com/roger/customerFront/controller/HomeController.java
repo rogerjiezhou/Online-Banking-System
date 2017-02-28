@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.roger.customerFront.dao.RoleDAO;
-import com.roger.customerFront.domain.Customer;
+import com.roger.customerFront.dao.RoleDao;
+import com.roger.customerFront.domain.User;
 import com.roger.customerFront.domain.security.UserRole;
-import com.roger.customerFront.services.CustomerService;
+import com.roger.customerFront.services.UserService;
 
 @Controller
 public class HomeController {
 	
 	@Autowired
-	private CustomerService customerService;
+	private UserService userService;
 	
 	@Autowired
-	private RoleDAO roleDAO;
+    private RoleDao roleDao;
 	
 	@RequestMapping("/")
 	public String home() {
@@ -30,43 +30,41 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/index")
-	public String index() {
-		System.out.println("Index mapping");
-		return "index";
-	}
+    public String index() {
+        return "index";
+    }
 	
-	@RequestMapping(value="/signup", method = RequestMethod.GET)
-	public String signup(Model model) {
-		
-		Customer customer = new Customer();
-		
-		model.addAttribute("customer", customer);
-		
-		return "signup";
-	}
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+    public String signup(Model model) {
+        User user = new User();
+
+        model.addAttribute("user", user);
+
+        return "signup";
+    }
 	
-	@RequestMapping(value="/signup", method = RequestMethod.POST)
-	public String signupPost(@ModelAttribute("customer") Customer customer, Model model) {
-		
-		if(customerService.checkCustomerExists(customer.getUsername(), customer.getEmail())) {
-			
-			if(customerService.checkEmailExists(customer.getEmail())) {
-				model.addAttribute("emailExists", true);
-			}
-			if(customerService.checkUsernameExists(customer.getUsername())) {
-				model.addAttribute("usernameExists", true);
-			}
-			
-			return "signup";
-			
-		} else {
-			Set<UserRole> userRoles = new HashSet<>();
-			userRoles.add(new UserRole(customer, roleDAO.findByName("ROLE_USER")));
-			
-			customerService.createUser(customer, userRoles);
-			
-			return "redirect:/";
-		}
-	}
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public String signupPost(@ModelAttribute("user") User user,  Model model) {
+
+        if(userService.checkUserExists(user.getUsername(), user.getEmail()))  {
+
+            if (userService.checkEmailExists(user.getEmail())) {
+                model.addAttribute("emailExists", true);
+            }
+
+            if (userService.checkUsernameExists(user.getUsername())) {
+                model.addAttribute("usernameExists", true);
+            }
+
+            return "signup";
+        } else {
+        	 Set<UserRole> userRoles = new HashSet<>();
+             userRoles.add(new UserRole(user, roleDao.findByName("ROLE_USER")));
+
+            userService.createUser(user, userRoles);
+
+            return "redirect:/";
+        }
+    }
 	
 }

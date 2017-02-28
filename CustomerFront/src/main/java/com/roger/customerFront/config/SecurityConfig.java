@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.roger.customerFront.services.CustomerSecurityService;
+import com.roger.customerFront.services.UserSecurityService;
 
 @Configuration
 @EnableWebSecurity
@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private Environment env;
 
     @Autowired
-    private CustomerSecurityService customerSecurityService;
+    private UserSecurityService userSecurityService;
 
     private static final String SALT = "salt"; // Salt should be protected carefully
 
@@ -69,9 +69,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 //    	 auth.inMemoryAuthentication().withUser("user").password("password").roles("USER"); //This is in-memory authentication
-        auth.userDetailsService(customerSecurityService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
     }
 
 
 }
-
