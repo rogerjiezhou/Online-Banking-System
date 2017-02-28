@@ -1,4 +1,4 @@
-package com.roger.cutomerFront;
+package com.roger.customerFront;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
